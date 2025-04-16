@@ -15,19 +15,17 @@ const userRoute=require("./routes/user.js")
 const commentRoute=require("./routes/comment.js")
 const User=require("./models/user.js");
 const methodOverride = require('method-override')
-const Blog=require("./models/blogModel.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local").Strategy;
-const expressError=require("./expressError.js");
 const session = require('express-session');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo');
+const Blog=require("./models/blogModel.js");
+const { wrapAsync } = require('./middleware.js');
 
 async function main() {
   await mongoose.connect(process.env.ATLAS_URL);
   console.log(`MONGO Connected Db Host: ${mongoose.connection.host}`);
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-  //   67fb224d5b45cbfbc401e476
 }
 
 main().catch(err => console.log(err));
@@ -71,11 +69,10 @@ app.use((req,res,next)=>{
 });
 
 
-app.get("/err",(req,res)=>{
-  console.log("req.isAuthenticated():",req.isAuthenticated());
-  console.log("req.user",req.user);
-  res.send("done");
-});
+app.get("/",wrapAsync(async (req,res)=>{
+  let blogs=await Blog.find().populate("author");
+  res.render("blog/index.ejs",{ blogs });
+}));
 
 app.use("/posts",blogRoute);
 app.use("/posts/:id/comments",commentRoute);
