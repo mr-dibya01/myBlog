@@ -1,0 +1,56 @@
+<%- layout('/layout/Boilerplate.ejs') %>
+
+<body>
+    <div class="card mt-4 col-8 offset-1">
+        <div class="card-header">
+            <i>@<%= blog.author.username %></i>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"><%= blog.title %></h5>
+            <p class="card-text"><%= blog.description %></p>
+            <% if (currUser._id.equals(blog.author._id)) { %>
+                <div style="display: flex">
+                    <a href="/posts/edit/<%= blog._id %>"><button class="btn btn-success btn-sm" style="margin-right: 0.5rem;">Edit</button></a>
+                    <form method="post" action="/posts/<%= blog._id %>?_method=Delete">
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="mt-4 col-8 offset-1">
+        <h2>Comments</h2>
+        <form class="needs-validation" method="post" action="/posts/<%= blog._id %>/comments" novalidate>
+            <div class="mb-3 col-8">
+                <textarea class="form-control" id="content" name="content" rows="2" required></textarea>
+                <div class="invalid-feedback">
+                    Comment must be required
+                </div>
+            </div>
+            <button type="submit " class="btn btn-primary btn-sm">Submit</button>
+        </form>
+        <hr>
+        <div class="row">
+            <% for(comment of blog.comments) { %>
+                <div class="col-sm-6 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i>@<%= comment.creator.username %></i></h5>
+                            <p class="card-text"><%= comment.content %></p>
+                            <div style="display: flex">
+                                <a href="/posts/<%= blog._id %>/comments/<%= comment._id %>/edit"><button class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;">Edit</button></a>
+                                <form method="post" action="/posts/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
+    </div>
+    <!-- console.log(blog.comments[0].creator.username);   -->
+    
+</body>

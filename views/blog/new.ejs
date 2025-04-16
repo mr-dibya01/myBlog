@@ -1,0 +1,25 @@
+<%- layout('/layout/Boilerplate.ejs') %>
+<body>
+    <div class="offset-1">
+        <h1 class="mb-3 mt-4">New post</h1>
+        <form class="needs-validation" method="post" action="/posts" novalidate>
+            <div class="mb-3  col-8">
+              <label for="title" class="form-label">Enter Title :</label>
+              <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp" required>
+              <div class="invalid-feedback">
+                Title must be required
+              </div>
+            </div>
+
+            <div class="mb-3 col-8">
+                <label for="description" class="form-label">Enter Description :</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                <div class="invalid-feedback">
+                    Description must be required
+                </div>
+            </div>
+
+            <button type="submit " class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>

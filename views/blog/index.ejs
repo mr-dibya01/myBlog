@@ -1,0 +1,19 @@
+<%- layout('/layout/Boilerplate.ejs') %>
+<body>
+    <% for(blog of blogs) { %>
+    <!-- <div class="row"> -->
+        <a style="text-decoration: none;" href="/posts/<%= blog._id %>">
+            <div class="card mt-4 col-8 offset-1">
+                <div class="card-header">
+                    <i class="fa-solid fa-user"></i>
+                    @<%= blog.author.username %>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"><%= blog.title %></h5>
+                    <p class="card-text"><%= blog.description %></p>
+                </div>  
+            </div>
+        </a>
+    <!-- </div> -->
+    <% } %>
+</body>
